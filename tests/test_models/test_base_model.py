@@ -3,7 +3,6 @@
 Unittests for the BaseModel class.
 """
 
-import models
 import unittest
 from models.base_model import BaseModel
 
@@ -49,6 +48,16 @@ class TestBaseModel(unittest.TestCase):
         self.assertIn('created_at', obj_dict)
         self.assertIn('updated_at', obj_dict)
         self.assertIn('id', obj_dict)
+
+    def test_from_dict_method(self):
+        """
+        Test the from_dict method of the BaseModel class.
+        """
+        my_model = BaseModel()
+        my_model_json = my_model.to_dict()
+        my_new_model = BaseModel.from_dict(my_model_json)
+        self.assertIsInstance(my_new_model, BaseModel)
+        self.assertEqual(my_model.__dict__, my_new_model.__dict__)
 
 
 if __name__ == "__main__":

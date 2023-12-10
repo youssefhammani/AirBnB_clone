@@ -59,3 +59,18 @@ class BaseModel:
         obj_dict['created_at'] = self.created_at.isoformat()
         obj_dict['updated_at'] = self.updated_at.isoformat()
         return obj_dict
+
+    @classmethod
+    def from_dict(cls, obj_dict):
+        """
+        Recreates an instance from a dictionary representation.
+
+        Args:
+            obj_dict (dict): Dictionary representation of the instance.
+
+        Returns:
+            BaseModel: Recreated instance.
+        """
+        if '__class__' in obj_dict:
+            obj_dict.pop('__class__')
+        return cls(**obj_dict)
