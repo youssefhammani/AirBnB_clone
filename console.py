@@ -78,10 +78,11 @@ class HBNBCommand(cmd.Cmd):
             match = re.search(r"\((.*?)\)", arg_list[1])
             if match is not None:
                 command = [arg_list[1][:match.span()[0]], match.group()[1:-1]]
-                if command[0] in command_mapping:
+                if command[0] in command_mapping.keys():
                     call = "{} {}".format(arg_list[0], command[1])
                     return command_mapping[command[0]](call)
         print("*** Unknown syntax: {}".format(arg))
+        return False
 
     def do_create(self, argument):
         """Usage: create <class>
@@ -126,7 +127,7 @@ class HBNBCommand(cmd.Cmd):
             print("** class doesn't exist **")
         elif len(arguments) == 1:
             print("** instance id missing **")
-        elif f"{arguments[0]}.{arguments[1]}" not in obj_dict:
+        elif f"{arguments[0]}.{arguments[1]}" not in obj_dict.keys():
             print("** no instance found **")
         else:
             del obj_dict[f"{arguments[0]}.{arguments[1]}"]
@@ -138,7 +139,8 @@ class HBNBCommand(cmd.Cmd):
         If no class is specified, displays all instantiated objects.
         """
         arguments = parse_arguments(argument)
-        if arguments and arguments[0] not in HBNBCommand.SUPPORTED_CLASSES:
+        if len(arguments) > 0 and \
+                arguments[0] not in HBNBCommand.SUPPORTED_CLASSES:
             print("** class doesn't exist **")
         else:
             obj_list = [
@@ -179,7 +181,7 @@ class HBNBCommand(cmd.Cmd):
         if len(arguments) == 1:
             print("** instance id missing **")
             return False
-        if f"{arguments[0]}.{arguments[1]}" not in obj_dict:
+        if f"{arguments[0]}.{arguments[1]}" not in obj_dict.keys():
             print("** no instance found **")
             return False
         if len(arguments) == 2:
