@@ -3,8 +3,8 @@
 Module containing the BaseModel class.
 """
 
-from datetime import datetime
 import uuid
+from datetime import datetime
 
 
 class BaseModel:
@@ -19,16 +19,17 @@ class BaseModel:
             *args: Variable length argument list.
             **kwargs: Arbitrary keyword arguments.
         """
-        format = "%Y-%m-%dT%H:%M:%S.%f"
+        date_format = "%Y-%m-%dT%H:%M:%S.%f"
         if kwargs:
             for key, value in kwargs.items():
                 if key == 'created_at' or key == 'updated_at':
-                    setattr(self, key, datetime.strptime(value, format))
+                    setattr(self, key, datetime.strptime(value, date_format))
                 elif key != '__class__':
                     setattr(self, key, value)
         else:
             self.id = str(uuid.uuid4())
             self.created_at = self.updated_at = datetime.now()
+            # storage.new(self)
 
     def __str__(self):
         """
@@ -46,6 +47,7 @@ class BaseModel:
         with the current datetime.
         """
         self.updated_at = datetime.now()
+        # storage.save()
 
     def to_dict(self):
         """
