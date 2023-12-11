@@ -63,7 +63,7 @@ class HBNBCommand(cmd.Cmd):
         """
         pass
 
-    def default(self, argument):
+    def default(self, arg):
         """Default behavior for cmd module when input is invalid"""
         command_mapping = {
             "all": self.do_all,
@@ -72,16 +72,16 @@ class HBNBCommand(cmd.Cmd):
             "count": self.do_count,
             "update": self.do_update
         }
-        match = re.search(r"\.", argument)
+        match = re.search(r"\.", arg)
         if match is not None:
-            argument_list = [argument[:match.span()[0]], argument[match.span()[1]:]]
-            match = re.search(r"\((.*?)\)", argument_list[1])
+            arg_list = [arg[:match.span()[0]], arg[match.span()[1]:]]
+            match = re.search(r"\((.*?)\)", arg_list[1])
             if match is not None:
-                command = [argument_list[1][:match.span()[0]], match.group()[1:-1]]
+                command = [arg_list[1][:match.span()[0]], match.group()[1:-1]]
                 if command[0] in command_mapping:
-                    call = "{} {}".format(argument_list[0], command[1])
+                    call = "{} {}".format(arg_list[0], command[1])
                     return command_mapping[command[0]](call)
-        print("*** Unknown syntax: {}".format(argument))
+        print("*** Unknown syntax: {}".format(arg))
 
     def do_create(self, argument):
         """Usage: create <class>
@@ -131,7 +131,7 @@ class HBNBCommand(cmd.Cmd):
         else:
             del obj_dict[f"{arguments[0]}.{arguments[1]}"]
             storage.save()
-    
+
     def do_all(self, argument):
         """Usage: all or all <class> or <class>.all()
         Display string representations of all instances of a given class.
@@ -141,15 +141,23 @@ class HBNBCommand(cmd.Cmd):
         if arguments and arguments[0] not in HBNBCommand.SUPPORTED_CLASSES:
             print("** class doesn't exist **")
         else:
-            obj_list = [str(obj) for obj in storage.all().values() if not arguments or obj.__class__.__name__ == arguments[0]]
+            obj_list = [
+                str(obj)
+                for obj in storage.all().values()
+                if not arguments or obj.__class__.__name__ == arguments[0]
+            ]
             print(obj_list)
-    
+
     def do_count(self, argument):
         """Usage: count <class> or <class>.count()
         Retrieve the number of instances of a given class.
         """
         arguments = parse_arguments(argument)
-        count = sum(1 for obj in storage.all().values() if obj.__class__.__name__ == arguments[0])
+        count = sum(
+            1
+            for obj in storage.all().values()
+            if obj.__class__.__name__ == arguments[0]
+        )
         print(count)
 
     def do_update(self, argument):
@@ -161,7 +169,7 @@ class HBNBCommand(cmd.Cmd):
         """
         arguments = parse_arguments(argument)
         obj_dict = storage.all()
-        
+
         if not arguments:
             print("** class name missing **")
             return False
@@ -183,19 +191,24 @@ class HBNBCommand(cmd.Cmd):
             except NameError:
                 print("** value missing **")
                 return False
-            
+
         obj = obj_dict[f"{arguments[0]}.{arguments[1]}"]
-        
+
         if len(arguments) == 4:
-            if arguments[2] in obj.__class__.__dict__ and type(obj.__class__.__dict__[arguments[2]]) in {str, int, float}:
+            if (
+                arguments[2] in obj.__class__.__dict__ and
+                type(obj.__class__.__dict__[arguments[2]]) in {str, int, float}
+            ):
                 value_type = type(obj.__class__.__dict__[arguments[2]])
                 obj.__dict__[arguments[2]] = value_type(arguments[3])
             else:
                 obj.__dict__[arguments[2]] = arguments[3]
         elif type(eval(arguments[2])) == dict:
             for key, value in eval(arguments[2]).items():
-                if (key in obj.__class__.__dict__.keys() and
-                        type(obj.__class__.__dict__[key]) in {str, int, float}):
+                if (
+                    key in obj.__class__.__dict__.keys() and
+                    type(obj.__class__.__dict__[key]) in {str, int, float}
+                ):
                     value_type = type(obj.__class__.__dict__[key])
                     obj.__dict__[key] = value_type(value)
                 else:
