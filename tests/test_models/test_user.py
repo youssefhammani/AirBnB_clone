@@ -2,9 +2,9 @@
 """Defines unittests for models/user.py.
 
 Unittest classes:
-    TestUser_instantiation
-    TestUser_save
-    TestUser_to_dict
+    TestUserInstantiation
+    TestUserSave
+    TestUserToDict
 """
 import os
 import models

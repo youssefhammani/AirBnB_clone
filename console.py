@@ -8,6 +8,12 @@ import re
 from shlex import split
 from models import storage
 from models.base_model import BaseModel
+from models.user import User
+from models.state import State
+from models.city import City
+from models.place import Place
+from models.amenity import Amenity
+from models.review import Review
 
 
 def parse_arguments(argument_string):
@@ -139,8 +145,7 @@ class HBNBCommand(cmd.Cmd):
         If no class is specified, displays all instantiated objects.
         """
         arguments = parse_arguments(argument)
-        if len(arguments) > 0 and \
-                arguments[0] not in HBNBCommand.SUPPORTED_CLASSES:
+        if arguments > 0 and arguments[0] not in HBNBCommand.SUPPORTED_CLASSES:
             print("** class doesn't exist **")
         else:
             obj_list = [
