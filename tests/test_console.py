@@ -36,7 +36,7 @@ class TestHBNBCommandPrompting(unittest.TestCase):
 class TestHBNBCommandHelp(unittest.TestCase):
     """Unittests for testing help messages of the HBNB command interpreter."""
 
-    def test_help_quit(self):
+    def test_help_quit_command(self):
         help_text = "Quit command to exit the program."
         with patch("sys.stdout", new=StringIO()) as output:
             self.assertFalse(HBNBCommand().onecmd("help quit"))
@@ -44,7 +44,7 @@ class TestHBNBCommandHelp(unittest.TestCase):
 
     def test_help_create_command(self):
         help_text = ("Usage: create <class>\n        "
-             "Create a new class instance and print its id.")
+                     "Create a new class instance and print its id.")
         with patch("sys.stdout", new=StringIO()) as output:
             self.assertFalse(HBNBCommand().onecmd("help create"))
             self.assertEqual(help_text, output.getvalue().strip())
@@ -57,49 +57,57 @@ class TestHBNBCommandHelp(unittest.TestCase):
 
     def test_help_show_command(self):
         help_text = ("Usage: show <class> <id> or <class>.show(<id>)\n        "
-             "Display the string representation of a class instance of"
-             " a given id.")
+                     "Display the string representation of a class instance of"
+                     " a given id.")
         with patch("sys.stdout", new=StringIO()) as output:
             self.assertFalse(HBNBCommand().onecmd("help show"))
             self.assertEqual(help_text, output.getvalue().strip())
 
     def test_help_destroy_command(self):
-        help_text = ("Usage: destroy <class> <id> or <class>.destroy(<id>)\n        "
-             "Deletes an instance based on the class name and id.")
+        help_text = (
+            "Usage: destroy <class> <id> or <class>.destroy(<id>)\n        "
+            "Deletes an instance based on the class name and id."
+        )
         with patch("sys.stdout", new=StringIO()) as output:
             self.assertFalse(HBNBCommand().onecmd("help destroy"))
             self.assertEqual(help_text, output.getvalue().strip())
 
     def test_help_all_command(self):
-        help_text = ("Usage: all or all <class> or <class>.all()\n        "
-             "Display string representations of all instances of a given class"
-             ".\n        If no class is specified, displays all instantiated "
-             "objects.")
+        help_text = (
+            "Usage: all or all <class> or <class>.all()\n        "
+            "Display string representations of all instances of a given class"
+            ".\n        If no class is specified, displays all instantiated "
+            "objects."
+        )
         with patch("sys.stdout", new=StringIO()) as output:
             self.assertFalse(HBNBCommand().onecmd("help all"))
             self.assertEqual(help_text, output.getvalue().strip())
 
     def test_help_count_command(self):
         help_text = ("Usage: count <class> or <class>.count()\n        "
-             "Retrieve the number of instances of a given class.")
+                     "Retrieve the number of instances of a given class.")
         with patch("sys.stdout", new=StringIO()) as output:
             self.assertFalse(HBNBCommand().onecmd("help count"))
             self.assertEqual(help_text, output.getvalue().strip())
 
     def test_help_update_command(self):
-        help_text = ("Usage: update <class> <id> <attribute_name> <attribute_value> or"
-             "\n       <class>.update(<id>, <attribute_name>, <attribute_value"
-             ">) or\n       <class>.update(<id>, <dictionary>)\n        "
-             "Update a class instance of a given id by adding or updating\n   "
-             "     a given attribute key/value pair or dictionary.")
+        help_text = (
+            "Usage: update <class> <id> <attribute_name> <attribute_value> or"
+            "\n       <class>.update(<id>, <attribute_name>, <attribute_value"
+            ">) or\n       <class>.update(<id>, <dictionary>)\n        "
+            "Update a class instance of a given id by adding or updating\n   "
+            "     a given attribute key/value pair or dictionary."
+        )
         with patch("sys.stdout", new=StringIO()) as output:
             self.assertFalse(HBNBCommand().onecmd("help update"))
             self.assertEqual(help_text, output.getvalue().strip())
 
     def test_help_command(self):
-        help_text = ("Documented commands (type help <topic>):\n"
-             "========================================\n"
-             "EOF  all  count  create  destroy  help  quit  show  update")
+        help_text = (
+            "Documented commands (type help <topic>):\n"
+            "========================================\n"
+            "EOF  all  count  create  destroy  help  quit  show  update"
+        )
         with patch("sys.stdout", new=StringIO()) as output:
             self.assertFalse(HBNBCommand().onecmd("help"))
             self.assertEqual(help_text, output.getvalue().strip())
